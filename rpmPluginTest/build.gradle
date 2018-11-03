@@ -1,0 +1,21 @@
+buildscript {
+  repositories {
+    flatDir {
+        dirs "${projectDir}/depjars"
+    }
+  }
+  
+  dependencies {
+    classpath "com.netflix.nebula:gradle-ospackage-plugin:5.1.0"
+    classpath "org.redline-rpm:redline:1.2.7"
+    classpath "org.bouncycastle:bcpg-jdk15on:1.51"
+    classpath "org.apache:commons-lang3:3.1"
+    classpath "org.apache:commons-compress:1.8"
+  }
+}
+
+apply plugin: "nebula.rpm"
+
+task fooRpm(type: Rpm) {
+        release '1'
+}
