@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -41,17 +42,23 @@ public class MyTableTest {
         _tableModel.addRow(new Object[] { "A7", "B7", "C7", "D7" });
 
         _table = new JTable(_tableModel);
-        JPanel panel = new JPanel();
-        panel.add(_table);
-        panel.add(createButton("UP", ev -> move(-1)));
-        panel.add(createButton("DOWN", ev -> move(1)));
-        panel.add(createButton("PRINT", ev -> print()));
-        panel.add(createButton("DELETE", ev -> delete()));
-        panel.add(createButton("DUPLICATE", ev -> duplicate()));
-        panel.add(createButton("OPEN FILE", ev -> openFile()));
-        panel.add(createButton("SAVE FILE", ev -> saveFile()));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(createButton("UP", ev -> move(-1)));
+        buttonPanel.add(createButton("DOWN", ev -> move(1)));
+        buttonPanel.add(createButton("PRINT", ev -> print()));
+        buttonPanel.add(createButton("DELETE", ev -> delete()));
+        buttonPanel.add(createButton("DUPLICATE", ev -> duplicate()));
+        buttonPanel.add(createButton("OPEN FILE", ev -> openFile()));
+        buttonPanel.add(createButton("SAVE FILE", ev -> saveFile()));
 
-        frame.add(panel);
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.add(_table);
+        topPanel.add(buttonPanel);
+
+        System.out.println(topPanel.getLayout().getClass().getName());
+
+        frame.add(topPanel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(new Dimension(400, 300));
