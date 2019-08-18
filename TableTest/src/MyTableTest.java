@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -101,7 +102,7 @@ public class MyTableTest {
 
     private static void duplicate() {
         Arrays.stream(_table.getSelectedRows()).boxed().sorted(Collections.reverseOrder())
-                .forEach(i -> _tableModel.insertRow(i, _tableModel.getDataVector().get(i)));
+                .forEach(i -> _tableModel.insertRow(i, (Vector<?>) _tableModel.getDataVector().get(i).clone()));
     }
 
     private static void delete() {
