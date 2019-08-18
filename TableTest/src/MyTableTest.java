@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -41,32 +42,25 @@ public class MyTableTest {
         _table = new JTable(_tableModel);
         JPanel panel = new JPanel();
         panel.add(_table);
-        JButton upButton = new JButton("UP");
-        upButton.addActionListener(ev -> move(-1));
-        JButton downButton = new JButton("DOWN");
-        downButton.addActionListener(ev -> move(1));
-        JButton printButton = new JButton("PRINT");
-        printButton.addActionListener(ev -> print());
-        JButton deleteButton = new JButton("DELETE");
-        deleteButton.addActionListener(ev -> delete());
-        JButton duplicateButton = new JButton("DUPLICATE");
-        duplicateButton.addActionListener(ev -> duplicate());
-        JButton openFileButton = new JButton("OPEN FILE");
-        openFileButton.addActionListener(ev -> openFile());
-        JButton saveFileButton = new JButton("SAVE FILE");
-        saveFileButton.addActionListener(ev -> saveFile());
-        panel.add(upButton);
-        panel.add(downButton);
-        panel.add(printButton);
-        panel.add(deleteButton);
-        panel.add(duplicateButton);
-        panel.add(openFileButton);
-        panel.add(saveFileButton);
+        panel.add(createButton("UP", ev -> move(-1)));
+        panel.add(createButton("DOWN", ev -> move(1)));
+        panel.add(createButton("PRINT", ev -> print()));
+        panel.add(createButton("DELETE", ev -> delete()));
+        panel.add(createButton("DUPLICATE", ev -> duplicate()));
+        panel.add(createButton("OPEN FILE", ev -> openFile()));
+        panel.add(createButton("SAVE FILE", ev -> saveFile()));
+
         frame.add(panel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(new Dimension(400, 300));
         frame.setVisible(true);
+    }
+
+    private static JButton createButton(String name, ActionListener al) {
+        JButton button = new JButton(name);
+        button.addActionListener(al);
+        return button;
     }
 
     private static void openFile() {
