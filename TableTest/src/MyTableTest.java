@@ -1,10 +1,18 @@
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -12,9 +20,11 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 public class MyTableTest {
+    private static final Logger LOGGER = Logger.getLogger(MyTableTest.class.getName());
 
     private static DefaultTableModel _tableModel;
     private static JTable _table;
+    private static File _lastFile;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Table fun");
@@ -41,16 +51,58 @@ public class MyTableTest {
         deleteButton.addActionListener(ev -> delete());
         JButton duplicateButton = new JButton("DUPLICATE");
         duplicateButton.addActionListener(ev -> duplicate());
+        JButton openFileButton = new JButton("OPEN FILE");
+        openFileButton.addActionListener(ev -> openFile());
+        JButton saveFileButton = new JButton("SAVE FILE");
+        saveFileButton.addActionListener(ev -> saveFile());
         panel.add(upButton);
         panel.add(downButton);
         panel.add(printButton);
         panel.add(deleteButton);
         panel.add(duplicateButton);
+        panel.add(openFileButton);
+        panel.add(saveFileButton);
         frame.add(panel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(new Dimension(400, 300));
         frame.setVisible(true);
+    }
+
+    private static void openFile() {
+        JFileChooser fc = new JFileChooser(_lastFile);
+        int returnVal = fc.showOpenDialog(_table);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            _lastFile = fc.getSelectedFile();
+            try {
+                List<List<String>> collect = Files.readAllLines(_lastFile.toPath()).stream()
+                        .map(s -> Arrays.asList(s.split(" "))).collect(Collectors.toList());
+                _tableModel.setRowCount(0);
+                collect.forEach(r -> _tableModel.addRow(r.toArray(new String[0])));
+            } catch (IOException e) {
+                LOGGER.log(Level.WARNING, "", e);
+            }
+        }
+    }
+
+    private static void saveFile() {
+        JFileChooser fc = new JFileChooser(_lastFile);
+        int returnVal = fc.showSaveDialog(_table);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            _lastFile = fc.getSelectedFile();
+
+            try (PrintWriter pw = new PrintWriter(new FileWriter(_lastFile, false))) {
+                for (int r = 0; r < _tableModel.getRowCount(); r++) {
+                    for (int c = 0; c < _tableModel.getColumnCount(); c++) {
+                        pw.print(_tableModel.getValueAt(r, c) + " ");
+                    }
+                    pw.println();
+                }
+            } catch (IOException e) {
+                LOGGER.log(Level.WARNING, "", e);
+            }
+        }
+
     }
 
     private static void duplicate() {
