@@ -8,6 +8,10 @@ repositories {
     jcenter()
 }
 
+dependencies {
+    compile 'org.jacorb:jacorb-idl-compiler:3.9'
+}
+
 gradlePlugin {
     plugins {
         jacorb {

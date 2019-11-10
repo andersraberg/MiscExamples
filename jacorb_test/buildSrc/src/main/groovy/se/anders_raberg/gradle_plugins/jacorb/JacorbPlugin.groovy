@@ -1,8 +1,10 @@
 package se.anders_raberg.gradle_plugins.jacorb
 
+import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
+import org.jacorb.idl.parser
 
 public class JacorbPlugin implements Plugin<Project> {
     private static class JacorbPluginExtension {
@@ -16,13 +18,14 @@ public class JacorbPlugin implements Plugin<Project> {
         project.mkdir "${project.buildDir}/generated/java"
         project.tasks.register("IDL") {
             doLast {
-                String includeArgs = ""
-                extension.idlDirs.each { includeArgs += "-I${it} "}
-                String fileArgs = ""
-                extension.idlFiles.each { fileArgs += it }
+                String arguments = "-d ${project.buildDir}/generated/java "
+                extension.idlDirs.each { arguments += "-I${it} "}
+                extension.idlFiles.each { arguments += "${it} "}
 
-                project.exec {
-                    commandLine 'sh', '-x', '-c', "/home/anders/IDLTest/jacorb-3.9/bin/idl -d ${project.buildDir}/generated/java ${includeArgs} ${fileArgs}"
+                parser.initLogging()
+                boolean ok = parser.compileAndHandle(arguments.split(" +"))
+                if (!ok) {
+                    throw new GradleException("Error when compiling IDL files")
                 }
             }
         }
@@ -40,7 +43,7 @@ public class JacorbPlugin implements Plugin<Project> {
                 }
             }
         }
-        
+
         project.tasks.compileJava.dependsOn project.'IDL'
     }
 }
