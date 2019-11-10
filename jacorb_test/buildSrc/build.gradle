@@ -1,0 +1,19 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'eclipse'
+    id 'groovy'
+}
+
+repositories {
+    jcenter()
+}
+
+gradlePlugin {
+    plugins {
+        jacorb {
+            id = 'jacorb'
+            implementationClass = 'se.anders_raberg.gradle_plugins.jacorb.JacorbPlugin'
+        }
+    }
+}
+

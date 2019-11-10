@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'jacorb'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.jacorb:jacorb:3.9'
+}
+
+jacorb {
+    idlFiles = files("${projectDir}/idl/server.idl")
+    idlDirs = files("${projectDir}/idl/")
+}
