@@ -27,17 +27,17 @@ public class TreeTest extends JFrame {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
         // create the child nodes
         DefaultMutableTreeNode english = new DefaultMutableTreeNode("English");
+        DefaultMutableTreeNode swedish = new DefaultMutableTreeNode("Swedish");
+        root.add(english);
+        root.add(swedish);
         english.add(new DefaultMutableTreeNode("Alpha"));
         english.add(new DefaultMutableTreeNode("Bravo"));
         english.add(new DefaultMutableTreeNode("Charlie"));
         english.add(new DefaultMutableTreeNode("Delta"));
-        DefaultMutableTreeNode swedish = new DefaultMutableTreeNode("Swedish");
         swedish.add(new DefaultMutableTreeNode("Adam"));
         swedish.add(new DefaultMutableTreeNode("Bertil"));
         swedish.add(new DefaultMutableTreeNode("Ceasar"));
         swedish.add(new DefaultMutableTreeNode("David"));
-        root.add(english);
-        root.add(swedish);
 
         tree = new JTree(root);
         add(new JScrollPane(tree));

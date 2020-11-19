@@ -100,7 +100,7 @@ public class GsonTest {
         gsonBuilder.registerTypeAdapter(Alpha.class, new AlphaAdapter());
         Gson gson = gsonBuilder.create();
 
-        String json = gson.toJson(new Wrapper(new Beta(42, 3.141592), new Gamma(true, 2.71)));
+        String json = gson.toJson(new Wrapper((Alpha)new Beta(42, 3.141592), new Gamma(true, 2.71)));
         System.out.println(json);
 
         Wrapper fromJson = gson.fromJson(json, Wrapper.class);

@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,11 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
@@ -28,6 +33,7 @@ public class MyTableTest {
     private static DefaultTableModel _tableModel;
     private static JTable _table;
     private static File _lastFile;
+    private static JSlider _slider;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Table fun");
@@ -54,6 +60,17 @@ public class MyTableTest {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.add(_table);
+        topPanel.add(new JSeparator());
+        topPanel.add(new JSeparator());
+        JLabel sliderLabel = new JLabel("Delay between rows [ms]", JLabel.CENTER);
+        sliderLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        topPanel.add(sliderLabel);
+        _slider = new JSlider(JSlider.HORIZONTAL, 0, 5000, 1000);
+        _slider.setMajorTickSpacing(1000);
+        _slider.setPaintTicks(true);
+        _slider.setPaintLabels(true);
+        _slider.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        topPanel.add(_slider);
         topPanel.add(buttonPanel);
 
         System.out.println(topPanel.getLayout().getClass().getName());
