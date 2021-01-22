@@ -1,0 +1,16 @@
+plugins {
+    id 'application'
+    id 'eclipse'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13'
+}
+
+application {
+    mainClass = 'se.anders_raberg.sudoku.Sudoku'
+}

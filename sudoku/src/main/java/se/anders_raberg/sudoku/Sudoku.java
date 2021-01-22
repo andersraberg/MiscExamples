@@ -1,44 +1,42 @@
 package se.anders_raberg.sudoku;
 
 public class Sudoku {
+    private static final int BLOCK_COLUMNS = 3;
+    private static final int BLOCK_ROWS = 3;
+    private static final int NUMBERS = 10;
+    private static final int ROWS = 9;
+    private static final int COLUMNS = 9;
+    private final int[][] _grid;
+    private int[][] _result;
 
-    private static final int[][] GRID = new int[][] { //
-            { 6, 3, 0, 0, 2, 0, 0, 0, 9 }, //
-            { 0, 4, 0, 5, 3, 1, 0, 0, 2 }, //
-            { 0, 7, 5, 0, 4, 9, 0, 3, 1 }, //
-            { 8, 0, 0, 4, 0, 6, 1, 0, 0 }, //
-            { 0, 0, 0, 2, 1, 0, 3, 9, 6 }, //
-            { 0, 0, 0, 7, 0, 3, 2, 0, 4 }, //
-            { 3, 8, 7, 0, 0, 0, 4, 0, 0 }, //
-            { 4, 0, 2, 1, 0, 0, 0, 6, 3 }, //
-            { 0, 0, 0, 0, 7, 0, 0, 0, 0 } };
-
-    public static void main(String[] args) {
-
-        System.out.println(toString(GRID));
+    public Sudoku(int[][] grid) {
+        _grid = copy(grid);
         solve();
-        System.out.println(toString(GRID));
     }
 
-    private static boolean possible(int y, int x, int n) {
-        for (int i = 0; i < 9; i++) {
-            if (GRID[y][i] == n) {
+    public int[][] getResult() {
+        return copy(_result);
+    }
+
+    private boolean possible(int y, int x, int n) {
+        for (int i = 0; i < COLUMNS; i++) {
+            if (_grid[y][i] == n) {
                 return false;
             }
         }
 
-        for (int i = 0; i < 9; i++) {
-            if (GRID[i][x] == n) {
+        for (int i = 0; i < ROWS; i++) {
+            if (_grid[i][x] == n) {
                 return false;
             }
         }
 
-        int x0 = (x / 3) * 3;
-        int y0 = (y / 3) * 3;
+        int x0 = (x / BLOCK_COLUMNS) * BLOCK_COLUMNS;
+        int y0 = (y / BLOCK_ROWS) * BLOCK_ROWS;
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (GRID[y0 + i][x0 + j] == n) {
+        for (int i = 0; i < BLOCK_ROWS; i++) {
+            for (int j = 0; j < BLOCK_COLUMNS; j++) {
+                if (_grid[y0 + i][x0 + j] == n) {
                     return false;
                 }
             }
@@ -47,37 +45,47 @@ public class Sudoku {
         return true;
     }
 
-    private static void solve() {
-        for (int y = 0; y < 9; y++) {
-            for (int x = 0; x < 9; x++) {
-                if (GRID[y][x] == 0) {
-                    for (int n = 1; n < 10; n++) {
+    private void solve() {
+        for (int y = 0; y < ROWS; y++) {
+            for (int x = 0; x < COLUMNS; x++) {
+                if (_grid[y][x] == 0) {
+                    for (int n = 1; n < NUMBERS; n++) {
                         if (possible(y, x, n)) {
-                            GRID[y][x] = n;
+                            _grid[y][x] = n;
                             solve();
-                            GRID[y][x] = 0;
+                            _grid[y][x] = 0;
                         }
                     }
                     return;
                 }
             }
         }
-        // At this point, the solution is correct.
-        System.out.println(toString(GRID));
+        _result = copy(_grid);
     }
 
-    private static String toString(int[][] grid) {
+    public static String toString(int[][] grid) {
         StringBuilder sb = new StringBuilder();
-        for (int y = 0; y < 9; y++) {
-            for (int x = 0; x < 9; x++) {
+        for (int y = 0; y < ROWS; y++) {
+            for (int x = 0; x < COLUMNS; x++) {
                 int posVal = grid[y][x];
                 sb.append(posVal == 0 ? "-" : String.valueOf(posVal));
-                sb.append((x + 1) % 3 == 0 ? "  " : "");
+                sb.append((x + 1) % BLOCK_COLUMNS == 0 ? "  " : "");
             }
             sb.append("\n");
-            sb.append((y + 1) % 3 == 0 ? "\n" : "");
+            sb.append((y + 1) % BLOCK_ROWS == 0 ? "\n" : "");
         }
         return sb.toString();
+
+    }
+
+    private static int[][] copy(int[][] from) {
+        int[][] result = new int[COLUMNS][ROWS];
+        for (int y = 0; y < ROWS; y++) {
+            for (int x = 0; x < COLUMNS; x++) {
+                result[x][y] = from[x][y];
+            }
+        }
+        return result;
 
     }
 
