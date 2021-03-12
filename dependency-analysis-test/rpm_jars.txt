@@ -1,0 +1,7 @@
+libs/
+libs/moshi-kotlin-1.9.2.jar
+libs/caffeine-2.8.5.jar
+libs/okio-1.16.0.jar
+libs/moshi-1.9.2.jar
+libs/dependency-analysis-gradle-plugin-0.71.0.jar
+libs/junit-4.13.jar
