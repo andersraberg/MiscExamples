@@ -1,0 +1,28 @@
+plugins {
+  id 'com.autonomousapps.dependency-analysis' version "1.0.0-rc02"
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'jacoco'
+
+    java {
+        toolchain {
+   	    languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+//    jacoco {
+//        applyTo run
+//    }
+
+}

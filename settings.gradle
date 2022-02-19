@@ -1,5 +1,23 @@
-//include 'grpc'
-include 'rpmPluginTest'
-include 'GsonTest'
-include 'sudoku'
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
 
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+
+rootProject.name = "misc-examples"
+
+include 'gson-test'
+include 'queue-test'
+include 'table-test'
+include 'tree-test'
+//include 'grpc'
+include 'jacorb-test:hello'
+include 'junit-test'
+include 'rpm-plugin-test'
+include 'sudoku'

@@ -1,0 +1,23 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'eclipse'
+    id 'groovy'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jacorb:jacorb-idl-compiler:3.9'
+}
+
+gradlePlugin {
+    plugins {
+        jacorb {
+            id = 'jacorb'
+            implementationClass = 'se.anders_raberg.gradle_plugins.jacorb.JacorbPlugin'
+        }
+    }
+}
+

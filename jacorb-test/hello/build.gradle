@@ -1,0 +1,12 @@
+plugins {
+    id 'jacorb'
+}
+
+dependencies {
+    implementation 'org.jacorb:jacorb:3.9'
+}
+
+jacorb {
+    idlFiles = files("${projectDir}/idl/server.idl")
+    idlDirs = files("${projectDir}/idl/")
+}
