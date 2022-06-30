@@ -7,6 +7,5 @@ dependencies {
 }
 
 jacorb {
-    idlFiles = files("${projectDir}/idl/server.idl")
     idlDirs = files("${projectDir}/idl/")
 }
