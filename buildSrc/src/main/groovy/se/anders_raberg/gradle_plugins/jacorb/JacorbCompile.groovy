@@ -17,16 +17,16 @@ class JacorbCompile extends DefaultTask {
 
     @TaskAction
     def compile() {
-        def arguments = "-d ${outputDirectory} "
-        idlDirs.each { arguments += "-I${it} "}
+        List<String> arguments = ["-d", outputDirectory.asFile.toString()]
+        idlDirs.each { arguments.add("-I" + it) }
         idlDirs.each {
-            it.listFiles().each { arguments += "${it} " }
+            it.listFiles({File f -> f.name.endsWith(".idl")} as FileFilter).each { arguments.add(it.toString()) }
         }
 
         parser.initLogging()
-        boolean ok = parser.compileAndHandle(arguments.split(" +"))
+        boolean ok = parser.compileAndHandle(arguments.toArray(new String[0]))
         if (!ok) {
-            throw new GradleException("Error when compiling IDL files: ${arguments}")
+            throw new GradleException("Error when compiling IDL files: " + arguments)
         }
     }
 }
