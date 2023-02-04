@@ -1,0 +1,19 @@
+classpath
+\--- com.netflix.nebula.ospackage:com.netflix.nebula.ospackage.gradle.plugin:11.0.0
+     \--- com.netflix.nebula:gradle-ospackage-plugin:11.0.0
+          +--- org.apache.commons:commons-lang3:3.9
+          +--- com.bmuschko:gradle-docker-plugin:3.2.1
+          +--- org.redline-rpm:redline:1.2.10
+          |    +--- org.apache.ant:ant:1.10.11
+          |    |    \--- org.apache.ant:ant-launcher:1.10.11
+          |    +--- org.slf4j:slf4j-api:1.7.5
+          |    +--- org.apache.commons:commons-compress:1.21
+          |    +--- org.tukaani:xz:1.4 -> 1.8
+          |    \--- org.bouncycastle:bcpg-jdk15on:1.69
+          |         \--- org.bouncycastle:bcprov-jdk15on:1.69
+          \--- org.vafer:jdeb:1.8
+               +--- org.apache.ant:ant:1.10.6 -> 1.10.11 (*)
+               +--- commons-io:commons-io:2.6
+               +--- org.apache.commons:commons-compress:1.18 -> 1.21
+               +--- org.bouncycastle:bcpg-jdk15on:1.62 -> 1.69 (*)
+               \--- org.tukaani:xz:1.8
