@@ -2,10 +2,7 @@ package se.anders_raberg.socketexample;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
-import java.net.SocketException;
-import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -14,52 +11,32 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SocketExampleTest {
-
-    private class TestSocket extends DatagramSocket {
-
-        private final BlockingQueue<DatagramPacket> _data = new LinkedBlockingQueue<>();
-
-        public TestSocket() throws SocketException {
-        }
-
-        @Override
-        public void send(DatagramPacket p) throws IOException {
-            _data.add(p);
-        }
-
-        @Override
-        public void receive(DatagramPacket p) throws IOException {
-            try {
-                DatagramPacket packet = _data.take();
-                p.setData(packet.getData(), 0, packet.getLength());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    private Connection _connection;
+    private static final InetSocketAddress DUMMY_SOCK_ADDRESS = new InetSocketAddress("localhost", 12345);
+    private Connection _connectionA;
+    private Connection _connectionB;
 
     @BeforeEach
     void setUp() throws IOException {
-        TestSocket testSocket = new TestSocket();
-        _connection = new Connection(testSocket);
+        BlockingQueue<DatagramPacket> aToB = new LinkedBlockingQueue<>();
+        BlockingQueue<DatagramPacket> bToA = new LinkedBlockingQueue<>();
+        SimulatedSocket socketA = new SimulatedSocket(bToA, aToB);
+        SimulatedSocket socketB = new SimulatedSocket(aToB, bToA);
+        _connectionA = new Connection(socketA);
+        _connectionB = new Connection(socketB);
     }
 
     @Test
     void test() throws IOException {
-        final byte[] buf = { 10, 20, 30 };
-        DatagramPacket p = new DatagramPacket(buf, buf.length, new InetSocketAddress("localhost", 12345));
+        final byte[] buf1 = { 10, 20, 30 };
+        DatagramPacket out1 = new DatagramPacket(buf1, buf1.length, DUMMY_SOCK_ADDRESS);
+        _connectionA.send(out1);
+        DatagramPacket in1 = _connectionB.receive();
+        Assertions.assertArrayEquals(out1.getData(), in1.getData());
 
-        _connection.send(p);
-
-        DatagramPacket p2 = _connection.receive();
-
-        System.out.println(Arrays.toString(Arrays.copyOfRange(p2.getData(), 0, p2.getLength())));
-        Assertions.assertEquals(p.getLength(), p2.getLength());
-        Assertions.assertEquals(p.getOffset(), p2.getOffset());
-        Assertions.assertArrayEquals(p.getData(), p2.getData());
+        final byte[] buf2 = { 11, 22, 33 };
+        DatagramPacket out2 = new DatagramPacket(buf2, buf2.length, DUMMY_SOCK_ADDRESS);
+        _connectionB.send(out2);
+        DatagramPacket in2 = _connectionA.receive();
+        Assertions.assertArrayEquals(out2.getData(), in2.getData());
     }
-
 }
