@@ -1,0 +1,23 @@
+task copyFiles(type: Copy) {
+    def sourceDirs = ['sourceDir1', 'sourceDir2']
+    sourceDirs.each { dir ->
+        from dir
+    }
+    into 'destinationDir'
+
+    include '**/*.txt'
+    exclude '**/*.tmp'
+}
+
+
+task concatenateFiles(type: Copy) {
+    def sourceDirs = ['sourceDir1', 'sourceDir2']
+    def destinationFile = file('destinationDir/concatenated.txt')
+
+    from sourceDirs
+    into destinationFile.parent
+
+    eachFile { FileCopyDetails details ->
+        destinationFile.append(details.file.text)
+    }
+}
