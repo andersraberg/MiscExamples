@@ -21,3 +21,23 @@ task concatenateFiles(type: Copy) {
         destinationFile.append(details.file.text)
     }
 }
+
+
+task removePathPart(type: Copy) {
+    def sourceDirs = ['sourceDir1', 'sourceDir2'] // Add your source directories here
+    def destinationDir = file('/path/to/files')
+
+    sourceDirs.each { sourceDir ->
+        from file(sourceDir)
+    }
+
+    into destinationDir
+
+    eachFile { FileCopyDetails details ->
+        def relativePath = details.relativePath.toString()
+        // Remove the part matching the regex "my" from the path
+        def newPath = relativePath.replaceAll('my/', '')
+        rename { newPath }
+    }
+}
+
