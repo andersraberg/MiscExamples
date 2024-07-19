@@ -1,7 +1,0 @@
-plugins {
-    id "nebula.rpm" version "9.1.1"
-}
-
-task fooRpm(type: Rpm) {
-        release '1'
-}

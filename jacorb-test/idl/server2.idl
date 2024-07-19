@@ -1,0 +1,12 @@
+module se {
+     module anders_raberg {
+        module idl {
+         module hello2 {
+            interface HelloWorld2 {
+               string hello2(in string text);
+               void stopServer();
+            };
+         };
+      };
+   };
+};

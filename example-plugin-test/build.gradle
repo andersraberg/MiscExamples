@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+    id 'org.example.examplePlugin'
+}
+
+example {
+    files = files("one.txt", "two.txt")
+    outputDir = file("${buildDir}/OUT")
+}
+
+build.dependsOn exampleTask

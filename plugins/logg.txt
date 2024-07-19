@@ -1,0 +1,28 @@
+> Task :jacorb-plugin:compileJava UP-TO-DATE
+> Task :jacorb-plugin:pluginDescriptors UP-TO-DATE
+> Task :jacorb-plugin:processResources UP-TO-DATE
+> Task :jacorb-plugin:classes UP-TO-DATE
+> Task :jacorb-plugin:jar UP-TO-DATE
+> Task :jacorb-plugin:assemble UP-TO-DATE
+> Task :jacorb-plugin:compileTestJava
+> Task :jacorb-plugin:pluginUnderTestMetadata UP-TO-DATE
+> Task :jacorb-plugin:processTestResources UP-TO-DATE
+> Task :jacorb-plugin:testClasses
+
+> Task :jacorb-plugin:test
+
+JacorbPluginTest > canRunTask() FAILED
+    org.gradle.testkit.runner.UnexpectedBuildFailure at JacorbPluginTest.java:52
+
+2 tests completed, 1 failed, 1 skipped
+
+> Task :jacorb-plugin:test FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':jacorb-plugin:test'.
+> There were failing tests. See the report at: file:///home/anders/git/MiscExamples/plugins/jacorb-plugin/build/reports/tests/test/index.html
+
+BUILD FAILED in 10s
+8 actionable tasks: 2 executed, 6 up-to-date

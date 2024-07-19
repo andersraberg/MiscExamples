@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+    id 'jacorb'
+}
+
+
+dependencies {
+    implementation 'org.jacorb:jacorb:3.9'
+}
+
+jacorb {
+    idlDirs = files("${projectDir}/idl/", "${projectDir}/idl_other/")
+
+}

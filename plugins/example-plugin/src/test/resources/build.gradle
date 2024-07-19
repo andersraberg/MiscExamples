@@ -1,0 +1,11 @@
+//Hello
+
+
+plugins { 
+    id('org.example.examplePlugin') 
+} 
+
+example { 
+    files = files("a", "b") 
+    outputDir = file("${buildDir}")
+ }

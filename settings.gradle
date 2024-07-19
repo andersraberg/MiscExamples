@@ -1,12 +1,16 @@
 pluginManagement {
-    repositories {
-        gradlePluginPortal()
-    }
+    includeBuild 'plugins'
 }
 
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
+plugins {
+    id 'com.gradle.develocity' version '3.17.5'
+}
+
+develocity {
+    server = "https://dpeuniversity-develocity.gradle.com/"
+
+    buildScan {
+        publishing.onlyIf { false }
     }
 }
 
@@ -17,7 +21,11 @@ include 'queue-test'
 include 'table-test'
 include 'tree-test'
 //include 'grpc'
-include 'jacorb-test:hello'
+include 'jacorb-test'
 include 'junit-test'
-include 'rpm-plugin-test'
 include 'sudoku'
+include 'java2d-test'
+include 'swing-test'
+include 'socket-example'
+include 'example-plugin-test'
+

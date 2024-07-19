@@ -1,0 +1,30 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'eclipse'
+    id "jacoco"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation libs.junit.jupiter
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.jacorb:jacorb-idl-compiler:3.9'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+}
+
+gradlePlugin {
+    plugins {
+        jacorb {
+            id = 'jacorb'
+            implementationClass = 'se.anders_raberg.gradle_plugins.jacorb.JacorbPlugin'
+        }
+    }
+}
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

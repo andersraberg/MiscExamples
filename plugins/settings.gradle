@@ -1,0 +1,16 @@
+plugins {
+    id 'com.gradle.develocity' version '3.17.5'
+}
+
+develocity {
+    server = "https://dpeuniversity-develocity.gradle.com/"
+
+    buildScan {
+        publishing.onlyIf { false }
+    }
+
+}
+
+include 'example-plugin'
+include 'jacorb-plugin'
+
