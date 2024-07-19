@@ -23,7 +23,6 @@ import org.junit.jupiter.api.io.TempDir;
 import se.anders_raberg.gradle_plugins.jacorb.JacorbPlugin;
 
 class JacorbPluginTest {
-	private static final String BUILD_SUCCESSFUL = "BUILD SUCCESSFUL";
 	private static final String JACORB_PLUGIN_ID = "jacorb";
 	private static final String BUILD_GRADLE = "build.gradle";
 

@@ -8,10 +8,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation 'org.jacorb:jacorb:3.9'
-}
-
 jacorb { 
     idlDirs = files("a", "b") 
  }
