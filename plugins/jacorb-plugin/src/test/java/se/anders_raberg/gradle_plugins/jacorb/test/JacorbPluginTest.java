@@ -7,9 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.language.base.plugins.LifecycleBasePlugin;
 import org.gradle.testfixtures.ProjectBuilder;
@@ -26,7 +32,7 @@ class JacorbPluginTest {
 	private static final String JACORB_PLUGIN_ID = "jacorb";
 	private static final String BUILD_GRADLE = "build.gradle";
 
-	@TempDir(cleanup = CleanupMode.NEVER)
+	@TempDir(cleanup = CleanupMode.ALWAYS)
 	File projectDir;
 
 	@Test
@@ -38,13 +44,9 @@ class JacorbPluginTest {
 	}
 
 	@Test
-	void canRunTask() {
-		Project project = ProjectBuilder.builder().build();
-		project.copy(s -> {
-			s.from(new File(getClass().getClassLoader().getResource(BUILD_GRADLE).getFile()).getParent());
-			s.into(projectDir);
-		});
-
+	void canRunTask() throws IOException {
+		copyDirectory(new File(getClass().getClassLoader().getResource(BUILD_GRADLE).getFile()).getParent(),
+				projectDir.getPath());
 		GradleRunner runner = GradleRunner.create();
 		runner.forwardOutput();
 		runner.withPluginClasspath();
@@ -52,10 +54,27 @@ class JacorbPluginTest {
 		runner.withProjectDir(projectDir);
 		BuildResult result = runner.build();
 
-		Set<String> of = Set.of(LifecycleBasePlugin.BUILD_TASK_NAME).stream().map(n -> ":" + n)
-				.collect(Collectors.toSet());
+		Set<String> taskPaths = Set.of(JacorbPlugin.JACORB_COMPILE_TASK_NAME, LifecycleBasePlugin.BUILD_TASK_NAME)
+				.stream().map(JacorbPluginTest::taskNameToPath).collect(Collectors.toSet());
 
-		result.getTasks().stream().filter(t -> of.contains(t.getPath()))
+		result.getTasks().stream().filter(t -> taskPaths.contains(t.getPath()))
 				.forEach(t -> assertEquals(TaskOutcome.SUCCESS, t.getOutcome()));
+	}
+
+	private static String taskNameToPath(String name) {
+		return ":" + name;
+	}
+
+	public static void copyDirectory(String sourceDirectoryLocation, String destinationDirectoryLocation)
+			throws IOException {
+		Files.walk(Paths.get(sourceDirectoryLocation)).forEach(source -> {
+			Path destination = Paths.get(destinationDirectoryLocation,
+					source.toString().substring(sourceDirectoryLocation.length()));
+			try {
+				Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				throw new GradleException("", e);
+			}
+		});
 	}
 }

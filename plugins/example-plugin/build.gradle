@@ -1,11 +1,6 @@
 plugins {
     id 'java-gradle-plugin'
-    id 'eclipse'
     id "jacoco"
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
