@@ -24,6 +24,10 @@ import org.jacorb.idl.parser;
 
 @CacheableTask
 public abstract class JacorbCompile extends DefaultTask {
+	private static final String FILE_SUFFIX = ".idl";
+	private static final String INCLUDE_SWITCH = "-I";
+	private static final String OUTPUT_SWITCH = "-d";
+
 	@Inject
 	protected abstract FileSystemOperations getFileSystemsOperations();
 
@@ -36,17 +40,21 @@ public abstract class JacorbCompile extends DefaultTask {
 
 	@TaskAction
 	void compile() {
-		List<String> arguments = new ArrayList<>(List.of("-d", getOutputDir().get().toString()));
 		Set<File> idlDirs = getIdlDirs().get().getFiles();
-		idlDirs.forEach(d -> arguments.add("-I" + d.getName()));
-		idlDirs.forEach(d -> Arrays.stream(d.listFiles()).filter(f -> f.getName().endsWith(".idl"))
-				.forEach(f -> arguments.add(f.toString())));
+		List<String> arguments = new ArrayList<>();
+		arguments.addAll(List.of(OUTPUT_SWITCH, getOutputDir().get().getAsFile().getPath()));
+		arguments.addAll(idlDirs.stream().map(d -> INCLUDE_SWITCH + d.getName()).toList());
+		arguments.addAll(idlDirs.stream().flatMap(d -> filesInDir(d).stream()).toList());
 
 		boolean ok = parser.compileAndHandle(arguments.toArray(new String[0]));
 
 		if (!ok) {
 			throw new GradleException("Error when compiling IDL files: " + arguments);
 		}
+	}
+
+	private static List<String> filesInDir(File dir) {
+		return Arrays.stream(dir.listFiles(f -> f.getName().endsWith(FILE_SUFFIX))).map(File::getPath).toList();
 	}
 
 }
