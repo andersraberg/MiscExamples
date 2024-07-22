@@ -5,7 +5,6 @@ node {
     }
 
     stage('Code coverage') {
-        sh 'find . -name "*.exec"'
         sh './gradlew jacocoTestReport -Pversion=$BUILD_NUMBER --info'
         jacoco( 
             execPattern: '**/build/jacoco/*.exec',
@@ -18,7 +17,7 @@ node {
         }
     }
 
-    stage('Report') {
+/*    stage('Report') {
         junit '*/build/test-results/**/*.xml'
         sh 'mv */build/reports/profile/*.html build/reports/profile/index.html'
         publishHTML([allowMissing: true,
@@ -28,6 +27,6 @@ node {
                      reportFiles: 'index.html',
                      reportName: 'Gradle profile',
                      reportTitles: ''])
-    }
+    }*/
     
 }
