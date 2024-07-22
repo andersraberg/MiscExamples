@@ -12,3 +12,7 @@ dependencies {
 application {
     mainClass = 'se.anders_raberg.sudoku.Sudoku'
 }
+
+test {
+	useJUnitPlatform()
+}
