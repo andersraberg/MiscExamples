@@ -6,6 +6,7 @@ plugins {
 subprojects {
     apply plugin: 'eclipse'
     apply plugin: 'java'
+    apply plugin: 'jacoco'
     repositories {
         mavenCentral()
     }
