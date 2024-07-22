@@ -7,7 +7,7 @@ node {
     stage('Code coverage') {
         sh './gradlew jacocoTestReport -Pversion=$BUILD_NUMBER'
         jacoco( 
-            execPattern: 'build/jacoco/*.exec',
+            execPattern: '**/build/jacoco/*.exec',
         )
     }
 
