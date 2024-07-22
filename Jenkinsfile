@@ -18,12 +18,12 @@ node {
     }
 
     stage('Report') {
-        junit 'build/test-results/**/*.xml'
-        sh 'mv build/reports/profile/*.html build/reports/profile/index.html'
+        junit '**/build/test-results/**/*.xml'
+        sh 'mv **/build/reports/profile/*.html **/build/reports/profile/index.html'
         publishHTML([allowMissing: false,
                      alwaysLinkToLastBuild: false,
                      keepAll: true,
-                     reportDir: 'build/reports/profile/',
+                     reportDir: '**/build/reports/profile/',
                      reportFiles: 'index.html',
                      reportName: 'Gradle profile',
                      reportTitles: ''])
