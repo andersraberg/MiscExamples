@@ -4,10 +4,6 @@ node {
         sh './gradlew clean build -Pversion=$BUILD_NUMBER --profile --configuration-cache'
     }
 
-    stage('Run') {
-        sh './gradlew run'
-    }
-
     stage('Code coverage') {
         sh './gradlew jacocoTestReport -Pversion=$BUILD_NUMBER'
         jacoco( 
