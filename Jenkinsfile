@@ -5,6 +5,7 @@ node {
     }
 
     stage('Code coverage') {
+        sh 'find . -name "*.exec"'
         sh './gradlew jacocoTestReport -Pversion=$BUILD_NUMBER --info'
         jacoco( 
             execPattern: '**/build/jacoco/*.exec',
