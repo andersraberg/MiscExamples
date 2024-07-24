@@ -1,7 +1,7 @@
 node {
     git 'https://github.com/andersraberg/MiscExamples.git'
     stage('Build') {
-        sh './gradlew clean build -Pversion=$BUILD_NUMBER --profile --configuration-cache'
+        sh './gradlew clean build -Pversion=$BUILD_NUMBER --profile --configuration-cache --build-cache'
     }
 
     stage('Code coverage') {
