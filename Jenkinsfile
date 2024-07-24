@@ -13,7 +13,7 @@ node {
 
     stage('Sonar') {
         withSonarQubeEnv() {
-            sh './gradlew sonar -Dsonar.projectKey=MiscExamples -Pversion=$BUILD_NUMBER'
+            sh './gradlew sonar -Dsonar.projectKey=MiscExamples -Pversion=$BUILD_NUMBER --configuration-cache --build-cache'
         }
     }
 
