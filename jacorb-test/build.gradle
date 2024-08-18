@@ -2,7 +2,14 @@ plugins {
     id 'jacorb'
 }
 
+java {
+    jar {
+        manifest {
+            attributes 'Test': project.version
+	}
+    }
+}
+
 jacorb {
     idlDirs = files("${projectDir}/idl/", "${projectDir}/idl_other/")
-
 }
