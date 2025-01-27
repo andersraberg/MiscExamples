@@ -15,6 +15,11 @@ gradlePlugin {
             id = 'org.example.examplePlugin'
             implementationClass = 'org.example.ExamplePlugin'
         }
+        
+        listDependencies {
+            id = 'se.anders_raberg.gradle.plugins.list-dependencies'
+            implementationClass = 'se.anders_raberg.gradle.plugins.MyDependenciesPlugin'
+        }
     }
 }
 
