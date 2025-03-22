@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    margin: 5px 0;
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.nested {
+    display: none;
+    margin-left: 15px;
+    padding: 5px;
+    border-left: 3px solid #ddd;
+}
+
+.active {
+    display: block;
+}
+
+.toggle-icon {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #007bff;
+    cursor: pointer;
+}
+
+li:hover {
+    background: #f1f1f1;
+}

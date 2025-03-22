@@ -1,11 +1,8 @@
 plugins {
-    id 'java-library'
+    id 'application'
     id 'eclipse'
 }
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
+application {
+    mainClass = 'se.anders_raberg.html_test.InfoWebServer'
 }
