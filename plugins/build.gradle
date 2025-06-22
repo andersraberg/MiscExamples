@@ -1,5 +1,5 @@
 plugins {
-   id 'com.autonomousapps.dependency-analysis' version "1.32.0"
+   id 'com.autonomousapps.dependency-analysis' version "2.10.1"
 }
 
 subprojects {
