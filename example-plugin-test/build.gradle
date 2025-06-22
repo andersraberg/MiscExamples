@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.example.examplePlugin'
     id 'se.anders_raberg.gradle.plugins.list-dependencies'
+    id 'se.anders_raberg.gradle.plugins.mixed-copy'
 }
 
 dependencies {
@@ -17,3 +18,8 @@ example {
 }
 
 build.dependsOn exampleTask
+
+mixedcopy {
+    files = fileTree("alpha")
+    outputDir = file("${buildDir}/OUT2")
+}

@@ -20,6 +20,11 @@ gradlePlugin {
             id = 'se.anders_raberg.gradle.plugins.list-dependencies'
             implementationClass = 'se.anders_raberg.gradle.plugins.MyDependenciesPlugin'
         }
+
+        mixedCopy {
+            id = 'se.anders_raberg.gradle.plugins.mixed-copy'
+            implementationClass = 'se.anders_raberg.gradle.plugins.MixedCopyPlugin'
+        }
     }
 }
 
