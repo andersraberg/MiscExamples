@@ -17,12 +17,14 @@ subprojects {
         }
     }
 
-jacocoTestReport {
+    jacocoTestReport {
         reports {
             xml.required = true
             html.required = true
             csv.required = false
         }
+
+        sourceDirectories.setFrom files("$projectDir/src/main/java")
     } 
 }
 
