@@ -1,10 +1,29 @@
 plugins {
    id 'com.autonomousapps.dependency-analysis' version "2.10.1"
+   id "org.sonarqube" version "4.4.1.3373"
 }
 
 subprojects {
     apply plugin: 'eclipse'
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
     repositories {
         mavenCentral()
     }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
 }
+    }
+
+    tasks.withType(JacocoReport).configureEach {
+        reports {
+            xml.required = true
+            html.required = false
+            csv.required = false
+        }
+    } 
+}
+
+
