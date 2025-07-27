@@ -18,13 +18,17 @@ subprojects {
     }
 
     jacocoTestReport {
+        doFirst {
+            println "==> [${project.name}] JaCoCo source dirs: ${sourceDirectories.files}"
+            println "==> [${project.name}] JaCoCo class dirs: ${classDirectories.files}"
+        }
         reports {
             xml.required = true
             html.required = true
             csv.required = false
         }
 
-        sourceDirectories.setFrom files("$projectDir/src/main/java")
+//        sourceDirectories.setFrom files(sourceSets.main.allSource.srcDirs)
     } 
 }
 
