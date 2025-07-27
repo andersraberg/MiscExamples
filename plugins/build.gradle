@@ -17,10 +17,10 @@ subprojects {
 }
     }
 
-    tasks.withType(JacocoReport).configureEach {
+jacocoTestReport {
         reports {
             xml.required = true
-            html.required = false
+            html.required = true
             csv.required = false
         }
     } 
