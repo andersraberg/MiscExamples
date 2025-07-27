@@ -7,7 +7,7 @@ node {
     }
 
     stage('Build') {
-        sh './gradlew clean build -Pversion=$BUILD_NUMBER --profile --configuration-cache --build-cache
+        sh './gradlew clean build -Pversion=$BUILD_NUMBER --profile --configuration-cache --build-cache'
     }
 
     stage('Code coverage') {
