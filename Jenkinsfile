@@ -1,7 +1,7 @@
 node {
     git 'https://github.com/andersraberg/MiscExamples.git'
-    stage('Build Plugins') {
-        dir('plugins') {
+    dir('plugins') {
+        stage('Build Plugins') {
             sh './gradlew clean build -Pversion=$BUILD_NUMBER --profile --configuration-cache --build-cache'
 	}
     }
