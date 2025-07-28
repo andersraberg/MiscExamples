@@ -100,13 +100,13 @@ class JacorbPluginTest {
 
     void run(List<String> tasks, TaskOutcome expectedOutcome) {
         List<String> tmpTasks = new ArrayList<>(tasks);
-        tmpTasks.addAll(List.of("--configuration-cache", "--build-cache", "--gradle-user-home",
-                buildTempDir.resolve("gradle-home").toString()));
+        tmpTasks.addAll(List.of("--build-cache", "--gradle-user-home", buildTempDir.resolve("gradle-home").toString()));
 
         BuildResult result = GradleRunner.create() //
                 .withProjectDir(buildTempDir.toFile()) //
                 .withPluginClasspath() //
                 .withArguments(tmpTasks) //
+                .withDebug(true) //
                 .build();
 
         assertEquals(expectedOutcome, result.task(":" + JACORB_COMPILE_TASK_NAME).getOutcome());
