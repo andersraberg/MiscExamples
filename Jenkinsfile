@@ -10,8 +10,9 @@ node {
 
 	recordCoverage(tools: [[parser: 'JACOCO', pattern: '**/build/reports/jacoco/test/jacocoTestReport.xml']],
             sourceDirectories: [
-                [path: 'example-plugin/src/main/java'],
-                [path: 'jacorb-plugin/src/main/java']
+                [path: 'sudoku/src/main/java'],
+                [path: 'socket-example/src/main/java'],
+                [path: 'junit-test/src/main/java']
             ])
     }
 
