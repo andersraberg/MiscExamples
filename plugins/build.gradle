@@ -24,7 +24,7 @@ subprojects {
             csv.required = false
         }
 
-        sourceDirectories.setFrom files("$projectDir/src/main/java")
+       // sourceDirectories.setFrom files("$projectDir/src/main/java")
     } 
 }
 
