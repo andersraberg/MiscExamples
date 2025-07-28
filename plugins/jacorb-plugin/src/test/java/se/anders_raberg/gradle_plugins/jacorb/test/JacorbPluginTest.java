@@ -3,78 +3,113 @@
  */
 package se.anders_raberg.gradle_plugins.jacorb.test;
 
+import static org.gradle.api.plugins.BasePlugin.CLEAN_TASK_NAME;
+import static org.gradle.testkit.runner.TaskOutcome.FROM_CACHE;
+import static org.gradle.testkit.runner.TaskOutcome.SUCCESS;
+import static org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static se.anders_raberg.gradle_plugins.jacorb.JacorbPlugin.JACORB_COMPILE_TASK_NAME;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.gradle.api.GradleException;
 import org.gradle.api.Project;
-import org.gradle.language.base.plugins.LifecycleBasePlugin;
 import org.gradle.testfixtures.ProjectBuilder;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.gradle.testkit.runner.TaskOutcome;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.io.CleanupMode;
 import org.junit.jupiter.api.io.TempDir;
 
-import se.anders_raberg.gradle_plugins.jacorb.JacorbPlugin;
-
+@TestMethodOrder(OrderAnnotation.class)
 class JacorbPluginTest {
-	private static final String JACORB_PLUGIN_ID = "jacorb";
-	private static final String BUILD_GRADLE = "build.gradle";
+    private static final String JACORB_PLUGIN_ID = "jacorb";
 
-	@TempDir(cleanup = CleanupMode.ALWAYS)
-	File projectDir;
+    @TempDir(cleanup = CleanupMode.ON_SUCCESS)
+    private static Path buildTempDir;
 
-	@Test
-	void pluginRegistersATask() {
-		Project project = ProjectBuilder.builder().build();
-		project.getPlugins().apply(JACORB_PLUGIN_ID);
+    @BeforeAll
+    static void setupProject() throws IOException {
+        Path idlDirA = buildTempDir.resolve("a");
+        Path idlDirB = buildTempDir.resolve("b");
 
-		assertNotNull(project.getTasks().findByName(JacorbPlugin.JACORB_COMPILE_TASK_NAME));
-	}
+        Files.writeString(buildTempDir.resolve("build.gradle"), """
+                plugins {
+                    id 'java'
+                    id 'jacorb'
+                }
 
-	@Test
-	void canRunTask() throws IOException {
-		copyDirectory(new File(getClass().getClassLoader().getResource(BUILD_GRADLE).getFile()).getParent(),
-				projectDir.getPath());
-		GradleRunner runner = GradleRunner.create();
-		runner.forwardOutput();
-		runner.withPluginClasspath();
-		runner.withArguments(LifecycleBasePlugin.CLEAN_TASK_NAME, LifecycleBasePlugin.BUILD_TASK_NAME);
-		runner.withProjectDir(projectDir);
-		BuildResult result = runner.build();
 
-		Set<String> taskPaths = Set.of(JacorbPlugin.JACORB_COMPILE_TASK_NAME, LifecycleBasePlugin.BUILD_TASK_NAME)
-				.stream().map(JacorbPluginTest::taskNameToPath).collect(Collectors.toSet());
+                repositories {
+                    mavenCentral()
+                }
 
-		result.getTasks().stream().filter(t -> taskPaths.contains(t.getPath()))
-				.forEach(t -> assertEquals(TaskOutcome.SUCCESS, t.getOutcome()));
-	}
+                jacorb {
+                    idlDirs = files("%s", "%s")
+                }
+                """.formatted(idlDirA, idlDirB));
 
-	private static String taskNameToPath(String name) {
-		return ":" + name;
-	}
+        Files.createDirectories(idlDirA);
+        Files.writeString(idlDirA.resolve("a.idl"), """
+                interface Alpha {
+                };
+                """);
 
-	public static void copyDirectory(String sourceDirectoryLocation, String destinationDirectoryLocation)
-			throws IOException {
-		Files.walk(Paths.get(sourceDirectoryLocation)).forEach(source -> {
-			Path destination = Paths.get(destinationDirectoryLocation,
-					source.toString().substring(sourceDirectoryLocation.length()));
-			try {
-				Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				throw new GradleException("", e);
-			}
-		});
-	}
+        Files.createDirectories(idlDirB);
+        Files.writeString(idlDirB.resolve("b.idl"), """
+                interface Bravo {
+                };
+                """);
+
+    }
+
+    @Test
+    @Order(4)
+    void pluginRegistersATask() {
+        Project project = ProjectBuilder.builder().build();
+        project.getPlugins().apply(JACORB_PLUGIN_ID);
+        assertNotNull(project.getTasks().findByName(JACORB_COMPILE_TASK_NAME));
+    }
+
+    @Test
+    @Order(1)
+    void runCleanNoCache() {
+        run(List.of(CLEAN_TASK_NAME, JACORB_COMPILE_TASK_NAME), SUCCESS);
+    }
+
+    @Test
+    @Order(2)
+    void runUpToDate() {
+        run(List.of(JACORB_COMPILE_TASK_NAME), UP_TO_DATE);
+    }
+
+    @Test
+    @Order(3)
+    void runCleanWithCache() {
+        run(List.of(CLEAN_TASK_NAME, JACORB_COMPILE_TASK_NAME), FROM_CACHE);
+    }
+
+    void run(List<String> tasks, TaskOutcome expectedOutcome) {
+        List<String> tmpTasks = new ArrayList<>(tasks);
+        tmpTasks.addAll(List.of("--configuration-cache", "--build-cache", "--gradle-user-home",
+                buildTempDir.resolve("gradle-home").toString()));
+
+        BuildResult result = GradleRunner.create() //
+                .withProjectDir(buildTempDir.toFile()) //
+                .withPluginClasspath() //
+                .withArguments(tmpTasks) //
+                .build();
+
+        assertEquals(expectedOutcome, result.task(":" + JACORB_COMPILE_TASK_NAME).getOutcome());
+    }
+
 }
