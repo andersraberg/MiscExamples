@@ -40,6 +40,7 @@ public abstract class JacorbCompile extends DefaultTask {
 
 	@TaskAction
 	void compile() {
+		getFileSystemsOperations().delete(spec -> spec.delete(getOutputDir()));
 		Set<File> idlDirs = getIdlDirs().get().getFiles();
 		List<String> arguments = new ArrayList<>();
 		arguments.addAll(List.of(OUTPUT_SWITCH, getOutputDir().get().getAsFile().getPath()));
