@@ -8,10 +8,11 @@ node {
     stage('Code coverage') {
         sh './gradlew jacocoTestReport -Pversion=$BUILD_NUMBER --info'
 
-        recordCoverage tools: [
-            [parser: 'JACOCO', pattern: '**/build/reports/jacoco/test/jacocoTestReport.xml'] 
-        ]	
-
+	recordCoverage(tools: [[parser: 'JACOCO', pattern: '**/build/reports/jacoco/test/jacocoTestReport.xml']],
+            sourceDirectories: [
+                [path: 'example-plugin/src/main/java'],
+                [path: 'jacorb-plugin/src/main/java']
+            ])
     }
 
     stage('Sonar') {
