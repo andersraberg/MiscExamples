@@ -31,8 +31,6 @@ public class JacorbPlugin implements Plugin<Project> {
         project.getExtensions().getByType(SourceSetContainer.class).getByName(SourceSet.MAIN_SOURCE_SET_NAME).getJava()
                 .srcDir(outputDir);
 
-        project.getTasks().named(JavaPlugin.COMPILE_JAVA_TASK_NAME, t -> {
-            t.dependsOn(jacorbCompile);
-        });
+        project.getTasks().named(JavaPlugin.COMPILE_JAVA_TASK_NAME, t -> t.dependsOn(jacorbCompile));
     }
 }
