@@ -29,7 +29,7 @@ public class JacorbPlugin implements Plugin<Project> {
 
         project.getDependencies().add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, JACORB_DEPENDENCY);
         project.getExtensions().getByType(SourceSetContainer.class).getByName(SourceSet.MAIN_SOURCE_SET_NAME).getJava()
-                .srcDir(outputDir);
+                .srcDir(jacorbCompile.flatMap(JacorbCompile::getOutputDir));
 
         project.getTasks().named(JavaPlugin.COMPILE_JAVA_TASK_NAME, t -> t.dependsOn(jacorbCompile));
     }
