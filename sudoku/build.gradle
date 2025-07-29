@@ -4,13 +4,13 @@ plugins {
 
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.2'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation libs.junitJupiterApi
+    testRuntimeOnly libs.junitJupiterEngine
+    testRuntimeOnly libs.junitPlatformLauncher
 }
 
 application {
-    mainClass = 'se.anders_raberg.sudoku.Sudoku'
+    mainClass = 'se.anders_raberg.sudoku.Main'
 }
 
 test {

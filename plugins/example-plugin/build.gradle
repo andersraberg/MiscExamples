@@ -4,9 +4,9 @@ plugins {
 }
 
 dependencies {
-    testImplementation libs.junit.jupiter
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.2'
+    testImplementation libs.junitJupiterApi
+    testRuntimeOnly libs.junitJupiterEngine
+    testRuntimeOnly libs.junitPlatformLauncher
 }
 
 gradlePlugin {
@@ -29,6 +29,6 @@ gradlePlugin {
 }
 
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
 }
