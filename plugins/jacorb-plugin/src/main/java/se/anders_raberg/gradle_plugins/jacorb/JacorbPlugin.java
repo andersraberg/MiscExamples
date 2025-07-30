@@ -15,6 +15,7 @@ public class JacorbPlugin implements Plugin<Project> {
     public static final String JACORB_EXTENSION_NAME = "jacorb";
     public static final String JACORB_COMPILE_TASK_NAME = "jacorbCompile";
     private static final String JACORB_DEPENDENCY = "org.jacorb:jacorb:3.9";
+    private static final String JACORB_OMGAPI_DEPENDENCY = "org.jacorb:jacorb-omgapi:3.9";
 
     @Override
     public void apply(Project project) {
@@ -27,7 +28,8 @@ public class JacorbPlugin implements Plugin<Project> {
                     task.getOutputDir().set(outputDir);
                 });
 
-        project.getDependencies().add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, JACORB_DEPENDENCY);
+        project.getDependencies().add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, JACORB_OMGAPI_DEPENDENCY);
+        project.getDependencies().add(JavaPlugin.RUNTIME_ONLY_CONFIGURATION_NAME, JACORB_DEPENDENCY);
         project.getExtensions().getByType(SourceSetContainer.class).getByName(SourceSet.MAIN_SOURCE_SET_NAME).getJava()
                 .srcDir(jacorbCompile.flatMap(JacorbCompile::getOutputDir));
 
