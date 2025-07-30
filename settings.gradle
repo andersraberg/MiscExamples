@@ -29,5 +29,6 @@ include 'java2d-test'
 include 'swing-test'
 include 'socket-example'
 include 'example-plugin-test'
+include 'rest-example'
 include 'git-info'
 
