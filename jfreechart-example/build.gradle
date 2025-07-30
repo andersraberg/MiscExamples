@@ -1,0 +1,15 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jfree:jfreechart:1.5.3'
+}
+
+application {
+    mainClass = 'se.anders_raberg.freechart_example.App'
+}
