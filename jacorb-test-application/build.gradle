@@ -1,0 +1,11 @@
+plugins {
+    id 'application'
+}
+
+dependencies {
+    runtimeOnly project(':jacorb-test')
+}
+
+application {
+    mainClass = 'se.anders_raberg.jacorb_test.hello.Main'
+}
