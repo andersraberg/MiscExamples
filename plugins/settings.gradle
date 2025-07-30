@@ -1,5 +1,14 @@
 plugins {
-    id 'com.gradle.develocity' version '3.17.5'
+    id 'com.gradle.develocity' version '3.18.1'
+    id 'com.autonomousapps.build-health' version '2.19.0'
+}
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("pluginLibs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
 }
 
 develocity {

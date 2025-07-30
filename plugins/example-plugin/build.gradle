@@ -4,9 +4,9 @@ plugins {
 }
 
 dependencies {
-    testImplementation libs.junitJupiterApi
-    testRuntimeOnly libs.junitJupiterEngine
-    testRuntimeOnly libs.junitPlatformLauncher
+    testImplementation pluginLibs.junitJupiterApi
+    testRuntimeOnly pluginLibs.junitJupiterEngine
+    testRuntimeOnly pluginLibs.junitPlatformLauncher
 }
 
 gradlePlugin {

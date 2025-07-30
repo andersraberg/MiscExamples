@@ -6,9 +6,9 @@ plugins {
 
 dependencies {
     implementation 'org.jacorb:jacorb-idl-compiler:3.9'
-    testImplementation libs.junitJupiterApi
-    testRuntimeOnly libs.junitJupiterEngine
-    testRuntimeOnly libs.junitPlatformLauncher
+    testImplementation pluginLibs.junitJupiterApi
+    testRuntimeOnly pluginLibs.junitJupiterEngine
+    testRuntimeOnly pluginLibs.junitPlatformLauncher
     testImplementation gradleTestKit()
 
 }
