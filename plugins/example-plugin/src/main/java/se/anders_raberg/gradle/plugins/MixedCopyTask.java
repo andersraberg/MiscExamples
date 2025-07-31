@@ -47,7 +47,7 @@ public abstract class MixedCopyTask extends DefaultTask {
                 if (file.getName().endsWith(ZIP_SUFFIX)) {
                     spec.from(getArchiveOperations().zipTree(file));
                 } else if (file.getName().endsWith(TAR_SUFFIX)) {
-                    spec.from(getArchiveOperations().zipTree(file));
+                    spec.from(getArchiveOperations().tarTree(file));        
                 } else {
                     spec.from(file);
                 }
