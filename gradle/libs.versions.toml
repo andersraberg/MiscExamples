@@ -2,6 +2,7 @@
 jupiter = "5.13.4"
 platform = "1.13.4"
 mockito = "5.18.0"
+jacorb = "3.9"
 
 [libraries]
 junitJupiterApi = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jupiter" }
@@ -9,3 +10,6 @@ junitJupiterEngine = { module = "org.junit.jupiter:junit-jupiter-engine", versio
 junitJupiterParams = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jupiter" }
 junitPlatformLauncher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "platform" }
 mockitoJupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
+jacorb = { module = "org.jacorb:jacorb", version.ref = "jacorb" }
+jacorbOmgApi = { module = "org.jacorb:jacorb-omgapi", version.ref = "jacorb" }
+jacorbIdlCompiler = { module = "org.jacorb:jacorb-idl-compiler", version.ref = "jacorb" }
