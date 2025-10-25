@@ -25,3 +25,9 @@ mixedcopy {
     files = fileTree("alpha")
     outputDir = file("${buildDir}/OUT2")
 }
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
