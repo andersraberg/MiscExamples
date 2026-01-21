@@ -1,0 +1,105 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('Apa', Copy) {
+    def outDir = layout.buildDirectory.dir("output")
+    from layout.projectDirectory.dir("input")
+    into outDir
+    eachFile { FileCopyDetails d ->
+        def qqq = outDir.map {it.file(d.path)}
+        println qqq.get()
+
+        println d.name
+        println d.path
+        println d.file
+    }
+}
+
+
+import java.util.Properties
+
+import java.util.Properties
+
+abstract class MergePropertiesTreeTask2 extends DefaultTask {
+
+    @InputDirectory
+    abstract DirectoryProperty getInputDir()
+
+    @OutputDirectory
+    abstract DirectoryProperty getOutputDir()
+
+    @TaskAction
+    void merge() {
+        File inRoot = inputDir.get().asFile
+        File outRoot = outputDir.get().asFile
+
+        inRoot.eachFileRecurse { File file ->
+            if (!file.name.endsWith(".properties")) return
+
+            // target file path preserved
+            File target = new File(
+                    outRoot,
+                    inRoot.toPath().relativize(file.toPath()).toString()
+            )
+            target.parentFile.mkdirs()
+
+            Properties base = new Properties()
+            file.withInputStream { base.load(it) }
+
+            File overrideFile = new File(file.parentFile, file.name + ".new")
+            if (overrideFile.exists()) {
+                Properties override = new Properties()
+                overrideFile.withInputStream { override.load(it) }
+                override.each { k, v -> base[k] = v }
+            }
+
+            target.withOutputStream {
+                base.store(it, "Merged properties")
+            }
+        }
+    }
+}
+
+tasks.register("mergePropertiesTree2", MergePropertiesTreeTask2) {
+    inputDir.set(layout.projectDirectory.dir("src/config"))
+    outputDir.set(layout.buildDirectory.dir("merged-config"))
+}
+
+tasks.register("splitAndRename", Copy) {
+
+      from("src/input") {
+          into("$buildDir/properties") {
+            include("**/*.properties")
+        }
+
+        into("$buildDir/others") {
+            exclude("**/*.properties")
+        }
+    }
+
+    from("src/extra") {
+        into("$buildDir/extra") {
+            rename { String fileName ->
+                "${fileName}.new"
+            }
+        }
+    }
+}
