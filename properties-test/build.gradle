@@ -1,0 +1,36 @@
+plugins {
+    id 'application'
+    id 'idea'
+    id("com.diffplug.spotless") version "8.8.0"
+}
+
+spotless {
+    java {
+        eclipse().configFile("/home/anders/java-code-formatter.xml")
+    }
+}
+
+
+group = 'se.anders-raberg.proptest'
+version = '1.0-SNAPSHOT'
+
+application {
+    mainClass = 'se.anders_raberg.proptest.Main'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation libs.commonsLang
+    testImplementation libs.junitJupiterApi
+    testImplementation libs.junitJupiterParams
+    testRuntimeOnly libs.junitJupiterEngine
+    testRuntimeOnly libs.junitPlatformLauncher
+}
+test {
+    useJUnitPlatform()
+}
+
+
