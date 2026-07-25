@@ -35,4 +35,4 @@ include 'jfreechart-example'
 include 'html-test'
 include 'rest-example'
 include 'git-info'
-
+include 'properties-test'

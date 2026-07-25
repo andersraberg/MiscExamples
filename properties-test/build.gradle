@@ -2,6 +2,7 @@ plugins {
     id 'application'
     id 'idea'
     id("com.diffplug.spotless") version "8.8.0"
+    id 'se.anders_raberg.gradle.plugins.validations'
 }
 
 spotless {

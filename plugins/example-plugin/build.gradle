@@ -15,7 +15,7 @@ gradlePlugin {
             id = 'org.example.examplePlugin'
             implementationClass = 'org.example.ExamplePlugin'
         }
-        
+
         listDependencies {
             id = 'se.anders_raberg.gradle.plugins.list-dependencies'
             implementationClass = 'se.anders_raberg.gradle.plugins.MyDependenciesPlugin'
@@ -24,6 +24,11 @@ gradlePlugin {
         mixedCopy {
             id = 'se.anders_raberg.gradle.plugins.mixed-copy'
             implementationClass = 'se.anders_raberg.gradle.plugins.MixedCopyPlugin'
+        }
+
+        validationPlugin {
+            id = 'se.anders_raberg.gradle.plugins.validations'
+            implementationClass = 'se.anders_raberg.gradle.plugins.ValidationsPlugin'
         }
     }
 }
