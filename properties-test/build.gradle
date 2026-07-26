@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'idea'
     id("com.diffplug.spotless") version "8.8.0"
-    id 'se.anders_raberg.gradle.plugins.validations'
+    id 'se.anders_raberg.gradle.plugins.propertiesValidation'
 }
 
 spotless {
@@ -17,6 +17,18 @@ version = '1.0-SNAPSHOT'
 
 application {
     mainClass = 'se.anders_raberg.proptest.Main'
+}
+
+distributions {
+    main {
+        contents {
+            from 'extraprops'
+        }
+    }
+}
+
+propertiesValidation {
+    propertiesFiles.from(getLayout().getProjectDirectory().dir("extraprops"))
 }
 
 repositories {
