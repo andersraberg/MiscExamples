@@ -4,7 +4,6 @@ import org.gradle.api.GradleException;
 
 import java.io.File;
 import java.util.Properties;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidatedProperties extends Properties {
@@ -23,8 +22,7 @@ public class ValidatedProperties extends Properties {
         }
 
         if (value instanceof String sValue) {
-            Matcher m = TRAILING_WHITE_SPACE_PATTERN.matcher(sValue);
-            if (m.matches()) {
+            if (TRAILING_WHITE_SPACE_PATTERN.matcher(sValue).matches()) {
                 throw new GradleException(
                         "Trailing white space [%s=%s] found in '%s'".formatted(key, sValue, _file.getAbsolutePath()));
             }
