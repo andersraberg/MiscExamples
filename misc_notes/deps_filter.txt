@@ -1,0 +1,40 @@
+import java.util.jar.JarFile
+
+plugins {
+    id 'java-library'
+}
+
+configurations {
+    tjipp
+}
+
+dependencies {
+    runtimeOnly project(':bepa')
+    tjipp project(':bepa')
+}
+
+project.getConfigurations().getByName("tjipp").forEach {println it}
+
+def files = project.getConfigurations().getByName("tjipp").files
+
+
+println(files)
+
+def myCopySpec = project.copySpec {
+    from(files) {
+        eachFile { FileCopyDetails f ->
+            if (f.name.endsWith("*.jar")) {
+                JarFile j = (JarFile)f.file
+                if (j.getManifest().properties.get("A").equals("True")) {
+
+                }
+            }
+        }
+        include '**/*'
+    }
+}
+
+tasks.register('copytest', Copy) {
+    into(project.getLayout().projectDirectory.dir('dummy'))
+    with myCopySpec
+}
