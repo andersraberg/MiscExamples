@@ -5,7 +5,12 @@ bin/
 .settings
 .project
 .classpath
+# IntelliJ IDEA
 .idea/
+*.iml
+
+# Build output
+out/
 # Ignore Gradle GUI config
 gradle-app.setting
 
