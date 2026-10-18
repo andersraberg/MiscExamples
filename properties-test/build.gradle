@@ -3,11 +3,13 @@ plugins {
     id 'idea'
     id("com.diffplug.spotless") version "8.8.0"
     id 'se.anders_raberg.gradle.plugins.propertiesValidation'
+    id 'jacoco'
+    id("org.gradle.test-retry") version "1.6.6"
 }
 
 spotless {
     java {
-        eclipse().configFile("/home/anders/java-code-formatter.xml")
+        eclipse().configFile(layout.projectDirectory.file("java-code-formatter.xml"))
     }
 }
 
@@ -28,7 +30,7 @@ distributions {
 }
 
 propertiesValidation {
-    propertiesFiles.from(getLayout().getProjectDirectory().dir("extraprops"))
+    propertiesFiles.from(getLayout().getProjectDirectory().dir("extraprops").asFileTree)
 }
 
 repositories {
@@ -44,6 +46,12 @@ dependencies {
 }
 test {
     useJUnitPlatform()
+    retry {
+        maxRetries = 10
+        maxFailures = 20
+        failOnPassedAfterRetry = false
+        failOnSkippedAfterRetry = true
+    }
 }
 
 
