@@ -4,7 +4,6 @@ plugins {
     id("com.diffplug.spotless") version "8.8.0"
     id 'se.anders_raberg.gradle.plugins.propertiesValidation'
     id 'jacoco'
-    id("org.gradle.test-retry") version "1.6.6"
 }
 
 spotless {
@@ -46,12 +45,6 @@ dependencies {
 }
 test {
     useJUnitPlatform()
-    retry {
-        maxRetries = 10
-        maxFailures = 20
-        failOnPassedAfterRetry = false
-        failOnSkippedAfterRetry = true
-    }
 }
 
 
