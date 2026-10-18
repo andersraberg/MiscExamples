@@ -26,9 +26,9 @@ gradlePlugin {
             implementationClass = 'se.anders_raberg.gradle.plugins.MixedCopyPlugin'
         }
 
-        validationPlugin {
-            id = 'se.anders_raberg.gradle.plugins.validations'
-            implementationClass = 'se.anders_raberg.gradle.plugins.ValidationsPlugin'
+        propertiesValidationPlugin {
+            id = 'se.anders_raberg.gradle.plugins.propertiesValidation'
+            implementationClass = 'se.anders_raberg.gradle.plugins.PropertiesValidationPlugin'
         }
     }
 }
