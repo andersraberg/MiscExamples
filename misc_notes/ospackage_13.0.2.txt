@@ -1,0 +1,34 @@
+classpath
+\--- com.netflix.nebula.ospackage:com.netflix.nebula.ospackage.gradle.plugin:13.0.2
+     \--- com.netflix.nebula:gradle-ospackage-plugin:13.0.2
+          +--- org.apache.commons:commons-lang3:3.14.0
+          +--- com.bmuschko:gradle-docker-plugin:10.0.0
+          +--- org.redline-rpm:redline:1.2.10
+          |    +--- org.apache.ant:ant:1.10.11 -> 1.10.15
+          |    |    \--- org.apache.ant:ant-launcher:1.10.15
+          |    +--- org.slf4j:slf4j-api:1.7.5 -> 1.7.36
+          |    +--- org.apache.commons:commons-compress:1.21 -> 1.26.2
+          |    |    +--- commons-codec:commons-codec:1.17.0
+          |    |    +--- commons-io:commons-io:2.16.1
+          |    |    \--- org.apache.commons:commons-lang3:3.14.0
+          |    +--- org.tukaani:xz:1.4 -> 1.9
+          |    \--- org.bouncycastle:bcpg-jdk15on:1.69
+          |         \--- org.bouncycastle:bcprov-jdk15on:1.69
+          \--- org.vafer:jdeb:1.14
+               +--- org.apache.maven:maven-archiver:3.6.3
+               |    +--- org.codehaus.plexus:plexus-archiver:4.10.0
+               |    |    +--- javax.inject:javax.inject:1
+               |    |    +--- org.codehaus.plexus:plexus-io:3.5.0
+               |    |    |    +--- javax.inject:javax.inject:1
+               |    |    |    \--- commons-io:commons-io:2.16.1
+               |    |    +--- commons-io:commons-io:2.16.1
+               |    |    +--- org.apache.commons:commons-compress:1.26.2 (*)
+               |    |    +--- org.slf4j:slf4j-api:1.7.36
+               |    |    +--- io.airlift:aircompressor:0.27
+               |    |    +--- org.tukaani:xz:1.9
+               |    |    \--- com.github.luben:zstd-jni:1.5.6-3
+               |    \--- org.codehaus.plexus:plexus-interpolation:1.27
+               +--- org.apache.ant:ant:1.10.15 (*)
+               \--- org.sonatype.plexus:plexus-sec-dispatcher:1.4
+                    \--- org.sonatype.plexus:plexus-cipher:1.4
+
